@@ -1,0 +1,1 @@
+INSERT INTO RSSFunctionApp_RSSFeeds (FeedName, URL, ReadTier, Enabled, Category, CompareAll, RemovePaywall, IngestionLogging) VALUES ('', '', 14, 0, '', 0, 0, 1)
