@@ -573,7 +573,7 @@ namespace RSSFeedAggregator
                 comm3.CommandType = CommandType.Text;
                 for (int i = 0; i < 30; i++)
                 {
-                    comm3.Parameters.AddWithValue("@Tag" + i, sortedtagTable.ElementAt(i));
+                    comm3.Parameters.AddWithValue("@Tag" + i, sortedtagTable.ElementAt(i).Key);
                 }
                 conn3.Open();
                 comm3.ExecuteNonQuery();
