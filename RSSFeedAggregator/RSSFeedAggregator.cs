@@ -18,6 +18,7 @@ namespace RSSFeedAggregator
         string _paywallRemover;
         int _connectionTimeout;
         int _ArticleKeepAge;
+        bool _scoreArticles;
         Dictionary<string, int> _ArticleScoreKeywords;
 
         #region "Initialization"      
@@ -28,6 +29,7 @@ namespace RSSFeedAggregator
             _connectionTimeout = 5000; //(milliseconds) 5 second timeout
             _paywallRemover = "https://PaywallRemoverWebsite/proxy?q=";
             _ArticleKeepAge = -14; //(days) fetch articles with an age of 2 weeks maximum
+            _scoreArticles = false; //set to true to score each article based on keywords in the TopArticles_StarBotKeywords table
             _ArticleScoreKeywords = InitKeywordTable();
         }
         #endregion
@@ -233,29 +235,19 @@ namespace RSSFeedAggregator
                                 discardedArticle++;
                                 continue;
                             }
-                            if (removepaywall)
-                            {
-                                linkuri = _paywallRemover + linkuri;
-                            }
+                            if (removepaywall) linkuri = _paywallRemover + linkuri;
                             if (linkList.Contains(linkuri)) continue;
-                            if (!IsValidDateKeepRange(pubDateTime) ||
-                                linkuri.Length >= 451) continue;
+                            if (!IsValidDateKeepRange(pubDateTime) || linkuri.Length >= 451) continue;
                             string titletext = "";
                             string summarytext = "";
                             if (i.Title.Text != null)
                             {
                                 titletext = i.Title.Text;
-                                if (titletext.Length > 250)
-                                {
-                                    titletext = titletext[..250];
-                                }
+                                if (titletext.Length > 250) titletext = titletext[..250];
                             }
-                            if (i.Summary != null)
-                            {
-                                summarytext = SummaryClipping(i.Summary.Text);
-
-                            }
-                            int articlescore = ArticleScoring(titletext.ToLower());
+                            if (i.Summary != null) summarytext = SummaryClipping(i.Summary.Text);
+                            int articlescore = 0;
+                            if (_scoreArticles) articlescore = ArticleScoring(titletext.ToLower());
                             TryToDumpStoryToDB(feedname, titletext, summarytext, linkuri, pubDateTime, articlescore, imageuri);
                             linkList.Add(linkuri);
                             uploadedArticle++;
