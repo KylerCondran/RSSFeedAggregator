@@ -22,7 +22,28 @@ Code available on GitHub [Download](https://github.com/KylerCondran/RSSFeedAggre
 - ReadTiers 11-13: Slow - check every 12 hours (2 times per day)
 - ReadTier 14: Daily - every 24 hours (1 time per day)
 
-6. Use the RSSFeeds_Insert.sql file in the Queries folder to add RSS feeds to the RSSFunctionApp_RSSFeeds Table. Set enabled to 1 to turn it on, set compareall if the RSS feed serves feeds from other providers, set removepaywall if the feed contains content that is paywalled, set ingestion logging when first activating to see if you are under consuming or over consuming the feed, it can be sped up or slowed down depending on how often the RSS feed posts new content.
+6. Use the RSSFeeds_Insert.sql file in the Queries folder to add RSS feeds to the RSSFunctionApp_RSSFeeds Table. Set enabled to 1 to turn it on, set compareall if the RSS feed serves feeds from other providers, set removepaywall if the feed contains content that is paywalled, set ingestion logging when first activating to monitor if you are under consuming or over consuming the feed in the RSSFunctionApp_IngestionLogs Table, you can speed it up or slow it down by switching readtiers depending on how often the RSS feed posts new content. It is best to not over consume the feed so you do not risk getting blocked.
+
+7. Trends are generated every 12 hours in the NewsFeed_Tags table, it reads every news article title and picks out the most frequent words. If you do not want a trend to appear in the trend table, add the word to the NewsFeed_BannedTrends table.
+
+8. Article title scoring is done when keywords are added to the TopArticles_StarbotKeywords table, there are 12 tiers a keyword can have. Tiers 1-6 are positive scoring words, tiers 7-12 are negative scoring words. The total score for the article title is calculated and added so it can appear higher or lower in a website feed.
+
+- Tier 1: 13 points
+- Tier 2: 11 points
+- Tier 3: 9 points
+- Tier 4: 5 points
+- Tier 5: 3 points
+- Tier 6: 1 point
+- Tier 7: -1 point
+- Tier 8: -3 points
+- Tier 9: -5 points
+- Tier 10: -9 points
+- Tier 11: -11 points
+- Tier 12: -13 points
+
+This allows you to score articles based on what you are most interested in and what you are not interested in. This list is completely subjective and to be designed by you based on what news articles are most interesting to you.
+
+9. After your scoring system is set up, periodically bots will go through and favorite articles that have the highest scores. There are currently 4 bots. Bot one will favorite an article once an hour. Bot two will favorite an article four times a day. Bot three will favorite an article twice a day. Bot four will favorite an article once per day. This causes a staggering effect and causes interesting articles to be shifted towards the top to potentially catch a users interest.
 
 ## Questions?
 
