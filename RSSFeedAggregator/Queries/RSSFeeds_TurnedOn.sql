@@ -1,3 +1,4 @@
+/* This query finds which RSS Feeds are currently enabled and shows what time they are downloaded, may have to be adjusted for timezone */
 SELECT TOP (1000) [ID]
       ,[FeedName]
       ,[URL]

@@ -1,3 +1,4 @@
+/* This query finds the date of the last article downloaded in the table for a reporter - used to troubleshoot and fix feeds */
 select x.reporter, x.datetime
 from (
     select reporter, datetime,

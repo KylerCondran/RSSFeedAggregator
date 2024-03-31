@@ -1,3 +1,4 @@
+/* This query finds the overall readtier distribution - use this to spread the RSS Feeds out uniformly in fast, regular, or slow, for best performance */
 SELECT '1' AS [Tier], Count(*) AS [Fast]
   FROM [RSSFunctionApp_RSSFeeds] WHERE Enabled = 1 AND ReadTier = 1
 SELECT '2' AS [Tier], Count(*) AS [Fast]

@@ -1,1 +1,2 @@
+/* This query adds new RSS Feeds to the table  */
 INSERT INTO RSSFunctionApp_RSSFeeds (FeedName, URL, ReadTier, Enabled, Category, CompareAll, RemovePaywall, IngestionLogging) VALUES ('', '', 14, 0, '', 0, 0, 1)

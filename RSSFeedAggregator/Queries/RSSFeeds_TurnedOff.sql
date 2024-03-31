@@ -1,3 +1,4 @@
+/* This query finds which RSS Feeds are currently disabled */
 SELECT TOP (1000) [ID]
       ,[FeedName]
       ,[URL]

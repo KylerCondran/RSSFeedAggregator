@@ -1,3 +1,4 @@
+/* This query finds the most recently downloaded articles */
 SELECT TOP (1000) [ID]
       ,[Reporter]
       ,[Article]

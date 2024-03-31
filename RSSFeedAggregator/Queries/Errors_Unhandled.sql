@@ -1,3 +1,4 @@
+/* This query finds the more serious errors - set handled flag to 1 after dealing with the error to ignore */
 SELECT TOP (1000) [ID]
       ,[Type]
       ,[Message]

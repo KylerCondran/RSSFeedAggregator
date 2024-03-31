@@ -1,3 +1,4 @@
+/* This query finds the highest scoring articles for time frames */
 SELECT TOP (5) [Reporter],[Article],[URL],[StarBotScore]
   FROM [NewsFeed_NewsArticles] WHERE DateTime BETWEEN dateadd(hour,-5,GETDATE()) AND dateadd(hour,7,GETDATE()) ORDER BY StarBotScore DESC
   SELECT TOP (5) [Reporter],[Article],[URL],[StarBotScore]
@@ -10,7 +11,7 @@ SELECT TOP (5) [Reporter],[Article],[URL],[StarBotScore]
   FROM [NewsFeed_NewsArticles] WHERE DateTime BETWEEN dateadd(hour,-329,GETDATE()) AND dateadd(hour,-161,GETDATE()) ORDER BY StarBotScore DESC
   SELECT TOP (50) [Reporter],[Article],[URL],[DateTime],[StarBotScore]
   FROM [NewsFeed_NewsArticles] WHERE DateTime BETWEEN dateadd(hour,-24,GETDATE()) AND GETDATE() ORDER BY StarBotScore DESC
-
+/* This query finds the highest scoring articles in the table and uses a decay algorithm to give the most recent more precedence */
 SELECT TOP (50) [Article],[URL],[Reporter],[DateTime],CASE
 	WHEN (datediff(hh,DateTime,GETDATE()) >= 102) THEN [StarBotScore] - 50
 	WHEN (datediff(hh,DateTime,GETDATE()) >= 96) THEN [StarBotScore] - 40
