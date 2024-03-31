@@ -2,6 +2,8 @@
 
 RSS Feed Aggregator is a database driven RSS Feed Aggregator application built on Azure Functions. It contains the backend features for the administration of a news aggregation website. If you want to build your own news website this is a great place to start!
 
+<img height="50" src="https://user-images.githubusercontent.com/25181517/121405384-444d7300-c95d-11eb-959f-913020d3bf90.png" title="C#"> <img height="50" src="https://user-images.githubusercontent.com/25181517/183911544-95ad6ba7-09bf-4040-ac44-0adafedb9616.png" title="Azure"> <img height="50" src="https://github.com/marwin1991/profile-technology-icons/assets/19180175/3b371807-db7c-45b4-8720-c0cfc901680a" title="MSSQL">
+
 ## Download
 Code available on GitHub [Download](https://github.com/KylerCondran/RSSFeedAggregator)
 
