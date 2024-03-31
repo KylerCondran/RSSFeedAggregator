@@ -17,6 +17,7 @@ namespace RSSFeedAggregator
         string _userAgent;
         string _paywallRemover;
         int _connectionTimeout;
+        int _ArticleKeepAge;
         Dictionary<string, int> StarBotKeywords;
 
         #region "Initialization"      
@@ -24,8 +25,9 @@ namespace RSSFeedAggregator
         {
             _connectionString = "ConnectionStringGoesHere";
             _userAgent = "UserAgentGoesHere";
-            _connectionTimeout = 5000;
+            _connectionTimeout = 5000; //(milliseconds) 5 second timeout
             _paywallRemover = "https://PaywallRemoverWebsite/proxy?q=";
+            _ArticleKeepAge = -14; //(days) fetch articles with an age of 2 weeks maximum
             StarBotKeywords = InitKeywordTable();
         }
         #endregion
@@ -236,17 +238,13 @@ namespace RSSFeedAggregator
                                 linkuri = _paywallRemover + linkuri;
                             }
                             if (linkList.Contains(linkuri)) continue;
-                            if (!IsValidLastTwoWeeksDateTime(pubDateTime) ||
+                            if (!IsValidDateKeepRange(pubDateTime) ||
                                 linkuri.Length >= 451) continue;
                             string titletext = "";
                             string summarytext = "";
                             if (i.Title.Text != null)
                             {
                                 titletext = i.Title.Text;
-                                if (feedname == "Substack")
-                                {
-                                    titletext = feed.Title.Text + " - " + titletext;
-                                }
                                 if (titletext.Length > 250)
                                 {
                                     titletext = titletext[..250];
@@ -283,11 +281,11 @@ namespace RSSFeedAggregator
             }
         }
 
-        public static bool IsValidLastTwoWeeksDateTime(DateTime? dateTime)
+        public bool IsValidDateKeepRange(DateTime? dateTime)
         {
             if (dateTime == null) return false;
 
-            DateTime minValue = DateTime.Now.ToUniversalTime().AddDays(-14);
+            DateTime minValue = DateTime.Now.ToUniversalTime().AddDays(_ArticleKeepAge);
             DateTime maxValue = DateTime.Now.ToUniversalTime();
 
             return minValue <= dateTime.Value && maxValue >= dateTime.Value;
