@@ -11,7 +11,7 @@ Code available on GitHub [Download](https://github.com/KylerCondran/RSSFeedAggre
 
 2. Acquire a MS SQL Server instance where you can host a database. Once you have a database you can use the .SQL files in the Table Schemas folder to create the initial tables. Also run and create the Stored Procedures.
 
-3. Add your connection string to the database in the initialization method. Also set the UserAgent string and PayWallRemover website if interested.
+3. Add your database connection string in the initialization method. Also set the user agent string and paywall remover website if interested.
 
 4. The main run method contains a [NCRONTAB Timer Trigger](https://learn.microsoft.com/en-us/azure/azure-functions/functions-bindings-timer) "0 0 * * * *", this controls how often the application is executed.
 
@@ -41,9 +41,9 @@ Code available on GitHub [Download](https://github.com/KylerCondran/RSSFeedAggre
 - Tier 11: -11 points
 - Tier 12: -13 points
 
-This allows you to score articles based on what you are most interested in and what you are not interested in. This list is completely subjective and to be designed by you based on what news articles are most interesting to you.
+This allows you to score articles based on what you are most interested in and what you are not interested in. This list is completely subjective and to be designed by you based on what news articles are most interesting to you. It is best to add several thousand words to this table to make articles scored efficiently.
 
-9. After your scoring system is set up, periodically bots will go through and favorite articles that have the highest scores. There are currently 4 bots. Bot one will favorite an article once an hour. Bot two will favorite an article four times a day. Bot three will favorite an article twice a day. Bot four will favorite an article once per day. This causes a staggering effect and causes interesting articles to be shifted towards the top to potentially catch a users interest.
+9. After your scoring system is set up, periodically bots will go through and favorite articles that have the highest scores. There are currently 4 bots. Bot one will favorite an article once an hour. Bot two will favorite an article four times a day. Bot three will favorite an article twice a day. Bot four will favorite an article once per day. This causes a staggering effect that can easily be overpowered by legitimate users and causes interesting articles to be shifted towards the top to potentially catch a users interest.
 
 ## Questions?
 
