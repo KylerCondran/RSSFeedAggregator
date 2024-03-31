@@ -1,0 +1,24 @@
+USE [Database]
+GO
+
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [NewsFeed_ArticleComments](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[NewsArticleID] [int] NOT NULL,
+	[UserIPAddress] [nvarchar](25) NOT NULL,
+	[Comment] [nvarchar](200) NULL,
+	[DateTime] [datetime] NOT NULL,
+	[UserName] [nvarchar](15) NULL,
+ CONSTRAINT [PK_NewsFeed_ArticleComments] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+
