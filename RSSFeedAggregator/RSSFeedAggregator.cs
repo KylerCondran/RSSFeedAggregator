@@ -19,6 +19,7 @@ namespace RSSFeedAggregator
         int _connectionTimeout;
         int _ArticleKeepAge;
         bool _scoreArticles;
+        bool _StarBotsActive;
         Dictionary<string, int> _ArticleScoreKeywords;
 
         #region "Initialization"      
@@ -29,7 +30,8 @@ namespace RSSFeedAggregator
             _connectionTimeout = 5000; //(milliseconds) 5 second timeout
             _paywallRemover = "https://PaywallRemoverWebsite/proxy?q=";
             _ArticleKeepAge = -14; //(days) fetch articles with an age of 2 weeks maximum
-            _scoreArticles = false; //set to true to score each article based on keywords in the TopArticles_StarBotKeywords table
+            _scoreArticles = false; //set to true to score each article based on keywords in the TopArticles_StarbotKeywords table
+            _StarBotsActive = false; //set to true to have bots periodically star (favorite) the top scoring articles, requires TopArticles_StarbotKeywords table set up
             _ArticleScoreKeywords = InitKeywordTable();
         }
         #endregion
@@ -557,6 +559,7 @@ namespace RSSFeedAggregator
 
         public void StarBot(int botNumber, int starCount, int fromRange, int toRange)
         {
+            if (_StarBotsActive == false) { return; }
             try
             {
                 using SqlConnection conn1 = new(_connectionString);
