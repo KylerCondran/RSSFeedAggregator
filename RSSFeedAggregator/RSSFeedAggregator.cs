@@ -105,7 +105,6 @@ namespace RSSFeedAggregator
                         break;
                     case 5:
                         ReadRssLists(14);
-                        LogVisitorProgress();
                         StarBot(4, 1, -329, 7);
                         break;
                 }
@@ -493,24 +492,6 @@ namespace RSSFeedAggregator
             catch (Exception e)
             {
                 TryToDumpErrorToDB(e, feedName, "", "LogIngestedPercentage");
-            }
-        }
-
-        public void LogVisitorProgress()
-        {
-            try
-            {
-                using SqlConnection conn = new(_connectionString);
-                using SqlCommand comm = new();
-                comm.Connection = conn;
-                comm.CommandType = CommandType.StoredProcedure;
-                comm.CommandText = "Site_LogVisitorProgress";
-                conn.Open();
-                comm.ExecuteNonQuery();
-            }
-            catch (Exception e)
-            {
-                TryToDumpErrorToDB(e, "", "", "LogVisitorProgress");
             }
         }
 
