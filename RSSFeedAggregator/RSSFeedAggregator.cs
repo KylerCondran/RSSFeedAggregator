@@ -188,7 +188,7 @@ namespace RSSFeedAggregator
                                 pubDateTime = i.PublishDate.ToUniversalTime().DateTime;
 
                             }
-                            catch (Exception e)
+                            catch (Exception)
                             {
                                 discardedArticle++;
                                 continue;
@@ -289,10 +289,7 @@ namespace RSSFeedAggregator
         {
             summary = Regex.Replace(summary, "<[^>]*>", string.Empty);
             summary = Regex.Replace(summary, @"\s+", " ");
-            if (summary.Length > 2000)
-            {
-                summary = summary[..2000];
-            }
+            if (summary.Length > 2000) summary = summary[..2000];
             return summary;
         }
 
@@ -430,22 +427,10 @@ namespace RSSFeedAggregator
                 string articletext = articleTitle;
                 string sourcetext = eMessage.StackTrace;
                 string typetext = eMessage.GetType().Name;
-                if (errormessagetext.Length > 2000)
-                {
-                    errormessagetext = errormessagetext[..2000];
-                }
-                if (articletext.Length > 250)
-                {
-                    articletext = articletext[..250];
-                }
-                if (sourcetext is { Length: > 5000 })
-                {
-                    sourcetext = sourcetext[..5000];
-                }
-                if (typetext.Length > 2000)
-                {
-                    typetext = typetext[..2000];
-                }
+                if (errormessagetext.Length > 2000) errormessagetext = errormessagetext[..2000];
+                if (articletext.Length > 250) articletext = articletext[..250];
+                if (sourcetext is { Length: > 5000 }) sourcetext = sourcetext[..5000];
+                if (typetext.Length > 2000) typetext = typetext[..2000];
                 using SqlConnection conn = new(_connectionString);
                 using SqlCommand comm = new("INSERT INTO RSSFunctionApp_ErrorLogs (Type, Message, Source, FeedName, ArticleTitle, Subroutine, DateTime, Handled) VALUES (@Type, @Message, @Source, @FeedName, @ArticleTitle, @Subroutine, GETDATE(), 0)", conn);
                 comm.CommandType = CommandType.Text;
