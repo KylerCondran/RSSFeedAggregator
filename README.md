@@ -22,7 +22,7 @@ Code available on GitHub [Download](https://github.com/KylerCondran/RSSFeedAggre
 - ReadTiers 11-13: Slow - check every 12 hours (2 times per day)
 - ReadTier 14: Daily - every 24 hours (1 time per day)
 
-6. Use the RSSFeeds_Insert.sql file in the Queries folder to add RSS feeds to the RSSFunctionApp_RSSFeeds Table. Set enabled to 1 to turn it on, set compareall if the RSS feed serves feeds from other providers, set removepaywall if the feed contains content that is paywalled, set ingestion logging when first activating to monitor if you are under consuming or over consuming the feed in the RSSFunctionApp_IngestionLogs Table, you can speed it up or slow it down by switching readtiers depending on how often the RSS feed posts new content. It is best to not over consume the feed so you do not risk getting blocked.
+6. Use the RSSFeeds_Insert.sql file in the Queries folder to add RSS feeds to the RSSFunctionApp_RSSFeeds Table. Set enabled to 1 to turn it on, set compareall if the RSS feed serves links from other providers, set removepaywall if the feed contains content that is paywalled, set ingestion logging when first activating to monitor if you are under consuming or over consuming the feed in the RSSFunctionApp_IngestionLogs Table, you can speed it up or slow it down by switching readtiers depending on how often the RSS feed posts new content. It is best to not over consume the feed so you do not risk getting blocked.
 
 7. Trends are generated every 12 hours in the NewsFeed_Tags table, it reads every news article title and picks out the most frequent words. If you do not want a trend to appear in the trend table, add the word to the NewsFeed_BannedTrends table.
 
