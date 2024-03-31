@@ -18,7 +18,7 @@ namespace RSSFeedAggregator
         string _paywallRemover;
         int _connectionTimeout;
         int _ArticleKeepAge;
-        Dictionary<string, int> StarBotKeywords;
+        Dictionary<string, int> _ArticleScoreKeywords;
 
         #region "Initialization"      
         public void Initialize()
@@ -28,7 +28,7 @@ namespace RSSFeedAggregator
             _connectionTimeout = 5000; //(milliseconds) 5 second timeout
             _paywallRemover = "https://PaywallRemoverWebsite/proxy?q=";
             _ArticleKeepAge = -14; //(days) fetch articles with an age of 2 weeks maximum
-            StarBotKeywords = InitKeywordTable();
+            _ArticleScoreKeywords = InitKeywordTable();
         }
         #endregion
 
@@ -255,8 +255,8 @@ namespace RSSFeedAggregator
                                 summarytext = SummaryClipping(i.Summary.Text);
 
                             }
-                            int starbotscore = StarbotScoring(titletext.ToLower());
-                            TryToDumpStoryToDB(feedname, titletext, summarytext, linkuri, pubDateTime, starbotscore, imageuri);
+                            int articlescore = ArticleScoring(titletext.ToLower());
+                            TryToDumpStoryToDB(feedname, titletext, summarytext, linkuri, pubDateTime, articlescore, imageuri);
                             linkList.Add(linkuri);
                             uploadedArticle++;
                         }
@@ -302,67 +302,67 @@ namespace RSSFeedAggregator
             return summary;
         }
 
-        public int StarbotScoring(string articleTitle)
+        public int ArticleScoring(string articleTitle)
         {
-            int starbotscore = 0;
+            int articlescore = 0;
             int maxtierfour = 4;
             int maxtiersix = 8;
             articleTitle = Regex.Replace(articleTitle, "[^a-z ]", string.Empty);
             string[] splitwordarray = articleTitle.Split(" ");
             foreach (string word in splitwordarray)
             {
-                if (StarBotKeywords.ContainsKey(word))
+                if (_ArticleScoreKeywords.ContainsKey(word))
                 {
-                    switch (StarBotKeywords[word])
+                    switch (_ArticleScoreKeywords[word])
                     {
                         case 1:
-                            starbotscore += 13;
+                            articlescore += 13;
                             break;
                         case 2:
-                            starbotscore += 11;
+                            articlescore += 11;
                             break;
                         case 3:
-                            starbotscore += 9;
+                            articlescore += 9;
                             break;
                         case 4:
                             if (maxtierfour > 0)
                             {
                                 maxtierfour -= 1;
-                                starbotscore += 5;
+                                articlescore += 5;
                             }
                             break;
                         case 5:
-                            starbotscore += 3;
+                            articlescore += 3;
                             break;
                         case 6:
                             if (maxtiersix > 0)
                             {
                                 maxtiersix -= 1;
-                                starbotscore += 1;
+                                articlescore += 1;
                             }
                             break;
                         case 7:
-                            starbotscore -= 1;
+                            articlescore -= 1;
                             break;
                         case 8:
-                            starbotscore -= 3;
+                            articlescore -= 3;
                             break;
                         case 9:
-                            starbotscore -= 5;
+                            articlescore -= 5;
                             break;
                         case 10:
-                            starbotscore -= 9;
+                            articlescore -= 9;
                             break;
                         case 11:
-                            starbotscore -= 11;
+                            articlescore -= 11;
                             break;
                         case 12:
-                            starbotscore -= 13;
+                            articlescore -= 13;
                             break;
                     }
                 }
             }
-            return starbotscore;
+            return articlescore;
         }
 
         public List<string> InitLinkList(string feedname, bool compareall)
@@ -405,7 +405,7 @@ namespace RSSFeedAggregator
         #endregion
 
         #region "Database Inserts"       
-        public void TryToDumpStoryToDB(string feedName, string title, string summary, string link, DateTime pubDate, int starBotScore, string image)
+        public void TryToDumpStoryToDB(string feedName, string title, string summary, string link, DateTime pubDate, int articleScore, string image)
         {
             using SqlConnection conn = new(_connectionString);
             using SqlCommand comm = new("INSERT INTO NewsFeed_NewsArticles (Reporter, Article, URL, DateTime, Summary, StarBotScore, Image) VALUES (@Reporter, @Article, @URL, @DateTime, @Summary, @StarBotScore, @Image)", conn);
@@ -415,7 +415,7 @@ namespace RSSFeedAggregator
             comm.Parameters.AddWithValue("@Summary", summary);
             comm.Parameters.AddWithValue("@URL", link);
             comm.Parameters.AddWithValue("@DateTime", pubDate);
-            comm.Parameters.AddWithValue("@StarBotScore", starBotScore);
+            comm.Parameters.AddWithValue("@StarBotScore", articleScore);
             comm.Parameters.AddWithValue("@Image", image);
             try
             {
