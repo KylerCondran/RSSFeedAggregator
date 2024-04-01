@@ -259,10 +259,7 @@ namespace RSSFeedAggregator
                             TryToDumpErrorToDB(e, feedname, "None", "ReadTheFeed3");
                         }
                     }
-                    if (ingestionlogging && !(uploadedArticle == 0 && discardedArticle == 0))
-                    {
-                        LogIngestedPercentage(feedname, uploadedArticle, discardedArticle);
-                    }
+                    if (ingestionlogging && !(uploadedArticle == 0 && discardedArticle == 0)) LogIngestedPercentage(feedname, uploadedArticle, discardedArticle);
                 }
                 catch (Exception e)
                 {
