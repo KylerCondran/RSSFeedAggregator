@@ -30,7 +30,7 @@ namespace RSSFeedAggregator
             _connectionTimeout = 5000; //(milliseconds) 5 second timeout
             _paywallRemover = "https://PaywallRemoverWebsite/proxy?q=";
             _ArticleKeepAge = -14; //(days) fetch articles with an age of 2 weeks maximum
-            _scoreArticles = false; //set to true to score each article based on keywords in the TopArticles_StarbotKeywords table
+            _scoreArticles = false; //set to true to score each article based on keywords entered in the TopArticles_StarbotKeywords table
             _StarBotsActive = false; //set to true to have bots periodically star (favorite) the top scoring articles, requires TopArticles_StarbotKeywords table set up
             _ArticleScoreKeywords = InitKeywordTable();
         }
